@@ -67,6 +67,7 @@ class A : public Base
 
 
     // Operators
+    
 
     // Getters & Setters
 

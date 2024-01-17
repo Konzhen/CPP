@@ -63,13 +63,11 @@ class B : public Base
                            // - FUNCTIONS - //
 
     // Constructor & Destructors
-        B();
-        B(B const &b);
         ~B();
 
 
     // Operators
-        B &operator=(B const &b);
+
 
     // Getters & Setters
 

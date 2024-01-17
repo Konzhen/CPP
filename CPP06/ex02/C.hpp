@@ -63,13 +63,11 @@ class C : public Base
                            // - FUNCTIONS - //
 
     // Constructor & Destructors
-        C();
-        C(C const &c);
         ~C();
 
 
     // Operators
-        C &operator=(C const &c);
+    
 
     // Getters & Setters
 

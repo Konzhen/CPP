@@ -6,6 +6,11 @@
 //--------------------------------------------------------------------------//
 
 # include <iostream>
+# include <cstdlib>
+# include <ctime>
+# include "A.hpp"
+# include "B.hpp"
+# include "C.hpp"
 
 //--------------------------------------------------------------------------//
 //	 							- CLASS -									//
@@ -72,7 +77,6 @@ class Base
 
 
     // Member Functions
-
 
 };
 
