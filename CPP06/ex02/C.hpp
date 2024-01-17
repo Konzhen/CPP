@@ -63,6 +63,7 @@ class C : public Base
                            // - FUNCTIONS - //
 
     // Constructor & Destructors
+        C();
         ~C();
 
 

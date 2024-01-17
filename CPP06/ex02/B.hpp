@@ -63,6 +63,7 @@ class B : public Base
                            // - FUNCTIONS - //
 
     // Constructor & Destructors
+        B();
         ~B();
 
 
