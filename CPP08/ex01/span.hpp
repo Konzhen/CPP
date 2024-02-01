@@ -6,6 +6,11 @@
 //--------------------------------------------------------------------------//
 
 # include <iostream>
+# include <vector>
+# include <iterator>
+# include <algorithm>
+# include <time.h>
+# include <stdlib.h>
 
 //--------------------------------------------------------------------------//
 //                                 - CLASS -                                //
@@ -16,7 +21,10 @@ class Span
 //--PRIVATE-----------------------------------------------------------------//
     private:
                            // - VARIABLES - //
-        unsigned int    _n;
+        unsigned int                _maxN;
+        std::vector<int>            _v;
+        std::vector<int>::iterator  _min;
+        std::vector<int>::iterator  _max;
 
 
                            // - FUNCTIONS - //
@@ -62,8 +70,9 @@ class Span
                            // - FUNCTIONS - //
 
     // Constructor & Destructors
-        Span();
-        Span(Span &span);
+        Span(unsigned int n);
+        Span(unsigned int n, int max);
+        Span(Span const &span);
         ~Span();
 
 
@@ -71,10 +80,14 @@ class Span
         Span &operator=(const Span &span);
 
     // Getters & Setters
-
+        std::vector<int> getVector() const;
+        unsigned int     getMaxN() const;
 
     // Member Functions
-
+        void printAll();
+        void addNumber(int n);
+        int  shortestSpan();
+        int  longestSpan();
 
 };
 
