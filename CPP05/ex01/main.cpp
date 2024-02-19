@@ -149,4 +149,18 @@ try
 
 	std::cout << std::endl;
 
+try
+	{
+		Bureaucrat b1("b1", 20);
+		Form f1(10, 30, "f1");
+		b1.signForm(f1);
+		std::cout << b1 << std::endl;
+		std::cout << std::endl;
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << e.what() << '\n';
+	}
+
+	std::cout << std::endl;
 }

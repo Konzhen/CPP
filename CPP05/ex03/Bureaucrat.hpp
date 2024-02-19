@@ -1,37 +1,32 @@
- #ifndef BITCOINEXCHANGE_HPP
-#define BITCOINEXCHANGE_HPP
+#ifndef BUREAUCRAT_HPP
+#define BUREAUCRAT_HPP
 
 //--------------------------------------------------------------------------//
-//                                - INCLUDES -                              //
+//	- 						  - INCLUDES -								-	//
 //--------------------------------------------------------------------------//
 
 # include <iostream>
-# include <map>
-# include <fstream>
-# include <cstring>
-# include <cstdlib>
-# include <string>
-# include <regex.h>
-# include <ctime>
-# include <limits.h>
-# include <iomanip>
+# include "AForm.hpp"
 
 //--------------------------------------------------------------------------//
-//                                 - CLASS -                                //
+//	 							- CLASS -									//
 //--------------------------------------------------------------------------//
 
-class BitcoinExchange
+class AForm;
+
+class Bureaucrat
 {
 //--PRIVATE-----------------------------------------------------------------//
     private:
                            // - VARIABLES - //
-
+        std::string const   _name;
+        int                 _grade;
 
 
                            // - FUNCTIONS - //
 
     // Constructor & Destructors
-
+        Bureaucrat();
 
     // Operators
 
@@ -60,29 +55,52 @@ class BitcoinExchange
 
 
     // Member Functions
-        static std::map<std::string, long double> createBtcMap();
-        static void evaluateInputWithBtc(std::string input, std::map<std::string, long double> &btc);
+
 
 //--PUBLIC------------------------------------------------------------------//
     public:
                            // - VARIABLES - //
 
 
+
                            // - FUNCTIONS - //
 
     // Constructor & Destructors
-        BitcoinExchange();
-        ~BitcoinExchange();
+        Bureaucrat(std::string const &name, int grade);
+        Bureaucrat(Bureaucrat const &bureaucrat);
+        ~Bureaucrat();
+
 
     // Operators
-
+        Bureaucrat &operator=(Bureaucrat const &bureaucrat);
+        Bureaucrat &operator++(int);
+        Bureaucrat &operator--(int);
 
     // Getters & Setters
-
+        const std::string   getName() const;
+        int                 getGrade() const;
 
     // Member Functions
-        static void exec(std::string input);
+
+        void                addGrade(int const g);
+        void                lowerGrade(int const g);
+        void                signForm(AForm &f) const;
+        void                executeForm(AForm const &aform);
+
+    class GradeTooLowException : public std::exception
+    {
+        public:
+            virtual const char* what() const throw();
+    };
+
+    class GradeTooHighException : public std::exception
+    {
+        public:
+            virtual const char* what() const throw();
+    };
 
 };
+
+std::ostream &operator<<(std::ostream &o, Bureaucrat const &bureaucrat);
 
 #endif

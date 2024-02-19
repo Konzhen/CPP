@@ -1,37 +1,31 @@
- #ifndef BITCOINEXCHANGE_HPP
-#define BITCOINEXCHANGE_HPP
+#ifndef SHRUBBERYCREATIONFORM_HPP
+#define SHRUBBERYCREATIONFORM_HPP
 
 //--------------------------------------------------------------------------//
-//                                - INCLUDES -                              //
+//	- 						  - INCLUDES -								-	//
 //--------------------------------------------------------------------------//
 
+# include "AForm.hpp"
+# include "Bureaucrat.hpp"
 # include <iostream>
-# include <map>
 # include <fstream>
-# include <cstring>
-# include <cstdlib>
-# include <string>
-# include <regex.h>
-# include <ctime>
-# include <limits.h>
-# include <iomanip>
 
 //--------------------------------------------------------------------------//
-//                                 - CLASS -                                //
+//	 							- CLASS -									//
 //--------------------------------------------------------------------------//
 
-class BitcoinExchange
+class ShrubberyCreationForm : public AForm
 {
 //--PRIVATE-----------------------------------------------------------------//
     private:
                            // - VARIABLES - //
-
+        std::string _target;
 
 
                            // - FUNCTIONS - //
 
     // Constructor & Destructors
-
+        ShrubberyCreationForm();
 
     // Operators
 
@@ -47,7 +41,6 @@ class BitcoinExchange
                            // - VARIABLES - //
 
 
-
                            // - FUNCTIONS - //
 
     // Constructor & Destructors
@@ -60,28 +53,30 @@ class BitcoinExchange
 
 
     // Member Functions
-        static std::map<std::string, long double> createBtcMap();
-        static void evaluateInputWithBtc(std::string input, std::map<std::string, long double> &btc);
+
 
 //--PUBLIC------------------------------------------------------------------//
     public:
                            // - VARIABLES - //
 
 
+
                            // - FUNCTIONS - //
 
     // Constructor & Destructors
-        BitcoinExchange();
-        ~BitcoinExchange();
+        ShrubberyCreationForm(const std::string name, std::string target);
+        ShrubberyCreationForm(ShrubberyCreationForm const &shrubberycreationform);
+        ~ShrubberyCreationForm();
+
 
     // Operators
-
+        ShrubberyCreationForm &operator=(ShrubberyCreationForm const &f);
 
     // Getters & Setters
-
+        std::string         getTarget() const;
 
     // Member Functions
-        static void exec(std::string input);
+        bool                execute(Bureaucrat const &executor) const;
 
 };
 

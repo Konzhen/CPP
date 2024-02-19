@@ -1,26 +1,21 @@
- #ifndef BITCOINEXCHANGE_HPP
-#define BITCOINEXCHANGE_HPP
+#ifndef INTERN_HPP
+#define INTERN_HPP
 
 //--------------------------------------------------------------------------//
-//                                - INCLUDES -                              //
+//	- 						  - INCLUDES -								-	//
 //--------------------------------------------------------------------------//
 
 # include <iostream>
-# include <map>
-# include <fstream>
-# include <cstring>
-# include <cstdlib>
-# include <string>
-# include <regex.h>
-# include <ctime>
-# include <limits.h>
-# include <iomanip>
+# include "AForm.hpp"
+# include "PresidentialPardonForm.hpp"
+# include "RobotomyRequestForm.hpp"
+# include "ShrubberyCreationForm.hpp"
 
 //--------------------------------------------------------------------------//
-//                                 - CLASS -                                //
+//	 							- CLASS -									//
 //--------------------------------------------------------------------------//
 
-class BitcoinExchange
+class Intern
 {
 //--PRIVATE-----------------------------------------------------------------//
     private:
@@ -34,7 +29,7 @@ class BitcoinExchange
 
 
     // Operators
-
+        Intern &operator=(Intern const &intern);
 
     // Getters & Setters
 
@@ -60,8 +55,7 @@ class BitcoinExchange
 
 
     // Member Functions
-        static std::map<std::string, long double> createBtcMap();
-        static void evaluateInputWithBtc(std::string input, std::map<std::string, long double> &btc);
+
 
 //--PUBLIC------------------------------------------------------------------//
     public:
@@ -71,8 +65,9 @@ class BitcoinExchange
                            // - FUNCTIONS - //
 
     // Constructor & Destructors
-        BitcoinExchange();
-        ~BitcoinExchange();
+        Intern();
+        ~Intern();
+        Intern(Intern const &intern);
 
     // Operators
 
@@ -81,7 +76,7 @@ class BitcoinExchange
 
 
     // Member Functions
-        static void exec(std::string input);
+        AForm *makeForm(const std::string &name, const std::string &target);
 
 };
 

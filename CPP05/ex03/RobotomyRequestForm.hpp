@@ -1,37 +1,33 @@
- #ifndef BITCOINEXCHANGE_HPP
-#define BITCOINEXCHANGE_HPP
+#ifndef ROBOTOMYREQUESTFORM_HPP
+#define ROBOTOMYREQUESTFORM_HPP
 
 //--------------------------------------------------------------------------//
-//                                - INCLUDES -                              //
+//	- 						  - INCLUDES -								-	//
 //--------------------------------------------------------------------------//
 
 # include <iostream>
-# include <map>
-# include <fstream>
-# include <cstring>
+# include "AForm.hpp"
+# include "Bureaucrat.hpp"
 # include <cstdlib>
-# include <string>
-# include <regex.h>
 # include <ctime>
-# include <limits.h>
-# include <iomanip>
+
 
 //--------------------------------------------------------------------------//
-//                                 - CLASS -                                //
+//	 							- CLASS -									//
 //--------------------------------------------------------------------------//
 
-class BitcoinExchange
+class RobotomyRequestForm : public AForm
 {
 //--PRIVATE-----------------------------------------------------------------//
     private:
                            // - VARIABLES - //
-
+        std::string _target;
 
 
                            // - FUNCTIONS - //
 
     // Constructor & Destructors
-
+        RobotomyRequestForm();
 
     // Operators
 
@@ -47,7 +43,6 @@ class BitcoinExchange
                            // - VARIABLES - //
 
 
-
                            // - FUNCTIONS - //
 
     // Constructor & Destructors
@@ -60,28 +55,30 @@ class BitcoinExchange
 
 
     // Member Functions
-        static std::map<std::string, long double> createBtcMap();
-        static void evaluateInputWithBtc(std::string input, std::map<std::string, long double> &btc);
+
 
 //--PUBLIC------------------------------------------------------------------//
     public:
                            // - VARIABLES - //
 
 
+
                            // - FUNCTIONS - //
 
     // Constructor & Destructors
-        BitcoinExchange();
-        ~BitcoinExchange();
+        RobotomyRequestForm(const std::string name, std::string target);
+        RobotomyRequestForm(RobotomyRequestForm const &robotomyrequestform);
+        ~RobotomyRequestForm();
+
 
     // Operators
-
+        RobotomyRequestForm &operator=(RobotomyRequestForm const &f);
 
     // Getters & Setters
-
+        std::string         getTarget() const;
 
     // Member Functions
-        static void exec(std::string input);
+        bool                execute(Bureaucrat const &executor) const;
 
 };
 

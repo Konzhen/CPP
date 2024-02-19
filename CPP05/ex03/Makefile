@@ -1,14 +1,19 @@
-NAME = btc
+NAME = ex03
 
 CC = c++
 
 FLAGS = -g -Wall -Wextra -Werror -std=c++98
 
-SRCS =  main.cpp	\
-		BitcoinExchange.cpp
+SRCS =	main.cpp					\
+		Bureaucrat.cpp				\
+		AForm.cpp					\
+		PresidentialPardonForm.cpp	\
+		ShrubberyCreationForm.cpp	\
+		RobotomyRequestForm.cpp		\
+		Intern.cpp					\
+
 
 OBJS = $(SRCS:.cpp=.o)
-
 %.o : %.cpp
 	$(CC) $(FLAGS) -c -o $@ $<
 
@@ -19,10 +24,10 @@ $(NAME): $(OBJS)
 
 clean:
 	rm -f $(OBJS)
-    
+	
 fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
-    
+	
 .PHONY: all clean fclean re bonus

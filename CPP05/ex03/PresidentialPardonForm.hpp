@@ -1,32 +1,30 @@
-#ifndef RPN_HPP
-# define RPN_HPP
+#ifndef PRESIDENTIALPARDONFORM_HPP
+#define PRESIDENTIALPARDONFORM_HPP
 
 //--------------------------------------------------------------------------//
-//    -                           - INCLUDES -                                -    //
+//	- 						  - INCLUDES -								-	//
 //--------------------------------------------------------------------------//
 
-# include <stack>
-# include <string>
-# include <exception>
 # include <iostream>
+# include "AForm.hpp"
+# include "Bureaucrat.hpp"
+
 //--------------------------------------------------------------------------//
-//                                 - CLASS -                                    //
+//	 							- CLASS -									//
 //--------------------------------------------------------------------------//
 
-class RPN
+class PresidentialPardonForm : public AForm
 {
 //--PRIVATE-----------------------------------------------------------------//
     private:
                            // - VARIABLES - //
-    std::string         input;
-    std::stack<float>   stack;
-    bool                isValidChar(char c) const;
-    float               operation(float first, float second, char token) const;
+        std::string _target;
+
 
                            // - FUNCTIONS - //
 
     // Constructor & Destructors
-
+        PresidentialPardonForm();
 
     // Operators
 
@@ -40,7 +38,6 @@ class RPN
 //--PROTECTED---------------------------------------------------------------//
     protected:
                            // - VARIABLES - //
-
 
 
                            // - FUNCTIONS - //
@@ -60,25 +57,26 @@ class RPN
 //--PUBLIC------------------------------------------------------------------//
     public:
                            // - VARIABLES - //
-    float calculate();
+
 
 
                            // - FUNCTIONS - //
 
     // Constructor & Destructors
-    RPN();
-    RPN(std::string str);
-    RPN(const RPN& r);
-    ~RPN();
+        PresidentialPardonForm(const std::string name, std::string target);
+        PresidentialPardonForm(PresidentialPardonForm const &presidentialpardonform);
+        ~PresidentialPardonForm();
 
 
     // Operators
-    RPN& operator=(const RPN& rpn);
+        PresidentialPardonForm &operator=(PresidentialPardonForm const &f);
 
     // Getters & Setters
-
+        std::string         getTarget() const;
 
     // Member Functions
+        bool                execute(Bureaucrat const &executor) const;
+
 };
 
 #endif

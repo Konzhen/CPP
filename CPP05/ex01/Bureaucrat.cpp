@@ -47,7 +47,7 @@ Bureaucrat    &Bureaucrat::operator=(Bureaucrat const &bureaucrat)
 Bureaucrat    &Bureaucrat::operator++(int)
 {
     if (_grade - 1 < 1)
-        throw Bureaucrat::GradeTooLowException();
+        throw Bureaucrat::GradeTooHighException();
     _grade--;
     return (*this);
 }
@@ -55,7 +55,7 @@ Bureaucrat    &Bureaucrat::operator++(int)
 Bureaucrat    &Bureaucrat::operator--(int)
 {
     if (_grade + 1 > 150)
-        throw Bureaucrat::GradeTooHighException();
+        throw Bureaucrat::GradeTooLowException();
     _grade++;
     return (*this);
 }

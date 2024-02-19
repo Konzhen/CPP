@@ -43,7 +43,9 @@ std::map<std::string, long double> BitcoinExchange::createBtcMap()
         while (std::getline(file, tmp))
         {
             std::string date = tmp.substr(0, 10);
-            long double rate = std::stod(tmp.substr(11));
+
+            char *end;
+            long double rate = strtod(tmp.substr(11).c_str(), &end);
             btc.insert(std::make_pair(date, rate));
         }
         return (btc);
@@ -57,12 +59,21 @@ std::map<std::string, long double> BitcoinExchange::createBtcMap()
 void    BitcoinExchange::evaluateInputWithBtc(std::string inputLine, std::map<std::string, long double> &btc)
 {
     std::string date = inputLine.substr(0, 10);
-    std::regex  pattern("\\d{4}-\\d{2}-\\d{2}");
-    std::cout << date << std::endl;
-    if (std::regex_match(date, pattern));
+
+    regex_t     regex;
+
+    const char  *pattern("^[0-9]{4}-[0-9]{2}-[0-9]{2}");
+
+    if (regcomp(&regex, pattern, REG_EXTENDED) != 0)
+        throw std::runtime_error("Error: Regex compilation failed.");
+    
+    int status = regexec(&regex, date.c_str(), 0, NULL, 0);
+
+    regfree(&regex);
+    if (status == REG_NOMATCH)
         throw std::runtime_error("Error: bad input 1:" + inputLine + ".");
 
-    std::tm timeinfo = {0};
+    std::tm timeinfo;
 
     timeinfo.tm_year = atoi(inputLine.substr(0, 3).c_str()) - 2000;
     timeinfo.tm_mon = atoi(inputLine.substr(5, 6).c_str()) - 1;
@@ -70,10 +81,11 @@ void    BitcoinExchange::evaluateInputWithBtc(std::string inputLine, std::map<st
 
     time_t  rawtime = mktime(&timeinfo);
     if (rawtime == -1)
-        throw std::runtime_error("Error: bad input 2" + inputLine + ".");
+        throw std::runtime_error("Error: bad input " + inputLine + ".");
 
-    if (inputLine.substr(11, 13) != " | ")
-        throw std::runtime_error("Error: bad delimiter." + inputLine + ".");
+    //std::cout << inputLine.substr(11, 13) << std::endl;
+    if (inputLine.substr(10, 12) != " | ")
+        throw std::runtime_error("Error: bad delimiter " + inputLine + ".");
 
     float value = atof(inputLine.substr(13).c_str());
     if (value < 0)
@@ -93,7 +105,7 @@ void    BitcoinExchange::evaluateInputWithBtc(std::string inputLine, std::map<st
 void    BitcoinExchange::exec(std::string input)
 {
     std::map<std::string, long double> btc = createBtcMap();
-    std::ifstream file(input);
+    std::ifstream file(input.c_str());
 
     if (file.is_open())
     {

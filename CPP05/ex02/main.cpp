@@ -6,22 +6,37 @@
 
 int	main()
 {
-	AForm *f1 = new PresidentialPardonForm("f1", "Dock");
-	AForm *f2 = new ShrubberyCreationForm("f2", "Dick");
-	AForm *f3 = new RobotomyRequestForm("f3", "Dack");
+	AForm *f1 = new PresidentialPardonForm("f1", "Basilic");
+	AForm *f2 = new ShrubberyCreationForm("f2", "Menthe");
+	AForm *f3 = new RobotomyRequestForm("f3", "Ciboulette");
 	try
 	{
-		Bureaucrat b1("b1", 1);
-		Bureaucrat b2("b2", 1);
-		Bureaucrat b3("b3", 50);
+		Bureaucrat b1("Capricorne", 1);
+		Bureaucrat b2("Belier", 1);
+		Bureaucrat b3("Cancer", 50);
+
+		std::cout << std::endl;
+
 		b1.signForm(*f1);
 		b2.executeForm(*f1);
+
+		std::cout << std::endl;
+
 		b1.signForm(*f2);
 		b2.executeForm(*f2);
+
+		std::cout << std::endl;
+
 		b1.signForm(*f3);
 		b2.executeForm(*f3);
+
+		std::cout << std::endl;
+
 		b3.signForm(*f3);
 		b3.executeForm(*f3);
+
+		std::cout << std::endl;
+
 	}
 	catch(const std::exception& e)
 	{
