@@ -8,8 +8,6 @@ int	main()
 
 	std::cout << "a, b, c : " << data->a << ", " << data->b << ", " << data->c << std::endl;
 
-	std::cout << std::endl;
-
 	serData = Serializer::deserialize(Serializer::serialize(data));
 	std::cout << data << std::endl;
 	std::cout << serData << std::endl;
@@ -17,6 +15,8 @@ int	main()
 	std::cout << Serializer::serialize(serData) << std::endl;
 
 	std::cout << "a, b, c : " << serData->a << ", " << serData->b << ", " << serData->c << std::endl;
+
+	delete(data);
 
 	std::cout << std::endl;
 }

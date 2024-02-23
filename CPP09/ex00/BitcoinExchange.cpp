@@ -71,20 +71,21 @@ void    BitcoinExchange::evaluateInputWithBtc(std::string inputLine, std::map<st
 
     regfree(&regex);
     if (status == REG_NOMATCH)
-        throw std::runtime_error("Error: bad input 1:" + inputLine + ".");
+        throw std::runtime_error("Error: bad input " + inputLine + ".");
 
     std::tm timeinfo;
 
-    timeinfo.tm_year = atoi(inputLine.substr(0, 3).c_str()) - 2000;
-    timeinfo.tm_mon = atoi(inputLine.substr(5, 6).c_str()) - 1;
-    timeinfo.tm_mday = atoi(inputLine.substr(8, 9).c_str());
+    timeinfo.tm_year = atoi(inputLine.substr(0, 4).c_str()) - 2000;
+    timeinfo.tm_mon = atoi(inputLine.substr(5, 2).c_str()) - 1;
+    timeinfo.tm_mday = atoi(inputLine.substr(8, 2).c_str());
 
     time_t  rawtime = mktime(&timeinfo);
+    std::cout << atoi(inputLine.substr(0, 4).c_str()) - 2000 << " " << atoi(inputLine.substr(5, 2).c_str()) - 1 << " " << atoi(inputLine.substr(8, 2).c_str()) << std::endl;
+    std::cout << timeinfo.tm_year << " " << timeinfo.tm_mon << " " << timeinfo.tm_mday << std::endl;
     if (rawtime == -1)
-        throw std::runtime_error("Error: bad input " + inputLine + ".");
+        throw std::runtime_error("Error: bad date format " + inputLine + ".");
 
-    //std::cout << inputLine.substr(11, 13) << std::endl;
-    if (inputLine.substr(10, 12) != " | ")
+    if (inputLine.substr(10, 3) != " | ")
         throw std::runtime_error("Error: bad delimiter " + inputLine + ".");
 
     float value = atof(inputLine.substr(13).c_str());
@@ -99,7 +100,7 @@ void    BitcoinExchange::evaluateInputWithBtc(std::string inputLine, std::map<st
         std::cout << date << " => " << value << " = " << it->second * value << std::setprecision(2) <<std::endl;
     }
     else
-        throw std::out_of_range("Error: value out of range.");
+        throw std::out_of_range("Error: TODO.");
 }
 
 void    BitcoinExchange::exec(std::string input)
