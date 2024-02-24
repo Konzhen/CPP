@@ -318,6 +318,7 @@ std::string       ScalarConverter::convertToDouble(std::string p, int src)
             return (tmp.str());
         }        
     }
+    else
     {
         if (s >> d && !s.fail())
         {
@@ -326,7 +327,17 @@ std::string       ScalarConverter::convertToDouble(std::string p, int src)
             if (src != FLOAT && src != DOUBLE)
                 tmp << d << ".0";
             else
-                tmp << d;
+            {
+                double           cmp;
+                long long int    i;
+
+                i = static_cast<long long int>(d);
+                cmp = static_cast<double>(i);
+                if (d > cmp) 
+                    tmp << d;
+                else
+                    tmp << d << ".0";
+            }
             return (tmp.str());
         }
     }

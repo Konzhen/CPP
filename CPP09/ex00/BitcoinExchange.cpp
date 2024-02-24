@@ -80,8 +80,8 @@ void    BitcoinExchange::evaluateInputWithBtc(std::string inputLine, std::map<st
     timeinfo.tm_mday = atoi(inputLine.substr(8, 2).c_str());
 
     time_t  rawtime = mktime(&timeinfo);
-    std::cout << atoi(inputLine.substr(0, 4).c_str()) - 2000 << " " << atoi(inputLine.substr(5, 2).c_str()) - 1 << " " << atoi(inputLine.substr(8, 2).c_str()) << std::endl;
-    std::cout << timeinfo.tm_year << " " << timeinfo.tm_mon << " " << timeinfo.tm_mday << std::endl;
+    // std::cout << atoi(inputLine.substr(0, 4).c_str()) - 2000 << " " << atoi(inputLine.substr(5, 2).c_str()) - 1 << " " << atoi(inputLine.substr(8, 2).c_str()) << std::endl;
+    // std::cout << timeinfo.tm_year << " " << timeinfo.tm_mon << " " << timeinfo.tm_mday << std::endl;
     if (rawtime == -1)
         throw std::runtime_error("Error: bad date format " + inputLine + ".");
 
