@@ -62,6 +62,7 @@ class BitcoinExchange
     // Member Functions
         static std::map<std::string, long double> createBtcMap();
         static void evaluateInputWithBtc(std::string input, std::map<std::string, long double> &btc);
+        static void findNearestDate(std::string input, std::map<std::string, long double> &btc);
 
 //--PUBLIC------------------------------------------------------------------//
     public:

@@ -30,6 +30,33 @@ BitcoinExchange::~BitcoinExchange()
 //                           - MEMBER FUNCTIONS -                           //
 //--------------------------------------------------------------------------//
 
+bool    isValidDate(std::string inputLine)
+{
+    int year = atoi(inputLine.substr(0, 4).c_str());
+    int month = atoi(inputLine.substr(5, 2).c_str());
+    int day = atoi(inputLine.substr(8, 2).c_str());
+    if (year <= 2009 && month == 1 && day < 2)
+        return false;
+
+    if (year < 2009 || year > 2050)
+        return false;
+
+    if (month < 1 || month > 12)
+        return false;
+
+    if (day < 1 || day > 31 ||
+        (day > 30 && (month == 4 || month == 6 || month == 9 || month == 11)) ||
+        (day > 29 && month == 2 && (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0))) ||
+        (day > 28 && month == 2 && !(year % 4 == 0 && (year % 100 != 0 || year % 400 == 0))))
+        return false;
+    return true;
+}
+
+void BitcoinExchange::findNearestDate(std::string input, std::map<std::string, long double> &btc)
+{
+    
+}
+
 std::map<std::string, long double> BitcoinExchange::createBtcMap()
 {
     std::ifstream file("./data.csv");
@@ -58,8 +85,6 @@ std::map<std::string, long double> BitcoinExchange::createBtcMap()
 
 void    BitcoinExchange::evaluateInputWithBtc(std::string inputLine, std::map<std::string, long double> &btc)
 {
-    std::string date = inputLine.substr(0, 10);
-
     regex_t     regex;
 
     const char  *pattern("^[0-9]{4}-[0-9]{2}-[0-9]{2}");
@@ -67,22 +92,13 @@ void    BitcoinExchange::evaluateInputWithBtc(std::string inputLine, std::map<st
     if (regcomp(&regex, pattern, REG_EXTENDED) != 0)
         throw std::runtime_error("Error: Regex compilation failed.");
     
-    int status = regexec(&regex, date.c_str(), 0, NULL, 0);
+    int status = regexec(&regex, inputLine.substr(0, 10).c_str(), 0, NULL, 0);
 
     regfree(&regex);
     if (status == REG_NOMATCH)
         throw std::runtime_error("Error: bad input " + inputLine + ".");
 
-    std::tm timeinfo;
-
-    timeinfo.tm_year = atoi(inputLine.substr(0, 4).c_str()) - 2000;
-    timeinfo.tm_mon = atoi(inputLine.substr(5, 2).c_str()) - 1;
-    timeinfo.tm_mday = atoi(inputLine.substr(8, 2).c_str());
-
-    time_t  rawtime = mktime(&timeinfo);
-    // std::cout << atoi(inputLine.substr(0, 4).c_str()) - 2000 << " " << atoi(inputLine.substr(5, 2).c_str()) - 1 << " " << atoi(inputLine.substr(8, 2).c_str()) << std::endl;
-    // std::cout << timeinfo.tm_year << " " << timeinfo.tm_mon << " " << timeinfo.tm_mday << std::endl;
-    if (rawtime == -1)
+    if (!isValidDate(inputLine))
         throw std::runtime_error("Error: bad date format " + inputLine + ".");
 
     if (inputLine.substr(10, 3) != " | ")
@@ -94,13 +110,11 @@ void    BitcoinExchange::evaluateInputWithBtc(std::string inputLine, std::map<st
     else if (value > 1000)
         throw std::out_of_range("Error: value out of range.");
     
-    std::map<std::string, long double>::const_iterator it = btc.find(date);
+    std::map<std::string, long double>::const_iterator it = btc.find(inputLine.substr(0, 10).c_str());
     if (it != btc.end())
-    {
-        std::cout << date << " => " << value << " = " << it->second * value << std::setprecision(2) <<std::endl;
-    }
+        std::cout << inputLine.substr(0, 10).c_str() << " => " << value << " = " << it->second * value << std::endl;
     else
-        throw std::out_of_range("Error: TODO.");
+
 }
 
 void    BitcoinExchange::exec(std::string input)
