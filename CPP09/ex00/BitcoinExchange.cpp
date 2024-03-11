@@ -30,12 +30,17 @@ BitcoinExchange::~BitcoinExchange()
 //                           - MEMBER FUNCTIONS -                           //
 //--------------------------------------------------------------------------//
 
+time_t  convertToRawTime(std::string date)
+{
+    time_t
+}
+
 bool    isValidDate(std::string inputLine)
 {
     int year = atoi(inputLine.substr(0, 4).c_str());
     int month = atoi(inputLine.substr(5, 2).c_str());
     int day = atoi(inputLine.substr(8, 2).c_str());
-    if (year <= 2009 && month == 1 && day < 2)
+    if (year <= 2009 && month <= 1 && day < 2)
         return false;
 
     if (year < 2009 || year > 2050)
@@ -54,6 +59,14 @@ bool    isValidDate(std::string inputLine)
 
 void BitcoinExchange::findNearestDate(std::string input, std::map<std::string, long double> &btc)
 {
+    time_t inputRawDate = convertToRawTime(input.substr(0, 10).c_str());
+
+    std::map<std::string, long double>::const_iterator it;
+
+    for (it = btc.begin(); it != btc.end(); it++)
+    {
+        
+    }
     
 }
 
@@ -114,7 +127,7 @@ void    BitcoinExchange::evaluateInputWithBtc(std::string inputLine, std::map<st
     if (it != btc.end())
         std::cout << inputLine.substr(0, 10).c_str() << " => " << value << " = " << it->second * value << std::endl;
     else
-
+        findNearestDate(inputLine, btc);
 }
 
 void    BitcoinExchange::exec(std::string input)

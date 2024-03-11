@@ -204,7 +204,7 @@ std::string        ScalarConverter::convertToFloat(std::string p, int src)
             i = static_cast<long long int>(fd);
             cmp = static_cast<double>(i);
             f = static_cast<float>(fd);
-            if (fd > cmp)
+            if (fd > cmp || (fd < 0 && fd < cmp))
                 tmp << f << "f";
             else
                 tmp << f << ".0f";
@@ -217,9 +217,15 @@ std::string        ScalarConverter::convertToFloat(std::string p, int src)
         {
             if (src == FLOAT)
             {
-                if (p[0] == '+')
-                   return (p.erase(0, 1)); 
-                return (p);
+                float           cmp;
+                long long int   i;
+
+                i = static_cast<long long int>(f);
+                cmp = static_cast<double>(i);
+                if (f > cmp || (f < 0 && f < cmp))
+                    tmp << f << "f";
+                else
+                    tmp << f << ".0f";
             }
             else
                 tmp << f << ".0f";
@@ -311,7 +317,7 @@ std::string       ScalarConverter::convertToDouble(std::string p, int src)
             i = static_cast<long long int>(dd);
             cmp = static_cast<double>(i);
             d = static_cast<double>(dd);
-            if (dd > cmp) 
+            if (dd > cmp || (dd < 0 && dd < cmp)) 
                 tmp << d;
             else
                 tmp << d << ".0";
@@ -333,7 +339,7 @@ std::string       ScalarConverter::convertToDouble(std::string p, int src)
 
                 i = static_cast<long long int>(d);
                 cmp = static_cast<double>(i);
-                if (d > cmp) 
+                if (d > cmp || (d < 0 && d < cmp)) 
                     tmp << d;
                 else
                     tmp << d << ".0";
@@ -348,47 +354,18 @@ void    ScalarConverter::convert(std::string const &p)
 {
     int type = findType(p.c_str());
 
-    switch (type)
+    if (type < 4)
     {
-        case 0:
-        {
-            std::cout << "char: " << convertToChar(p, INT) << std::endl;
-            std::cout << "int: " << convertToInt(p, INT) << std::endl;
-            std::cout << "float: " << convertToFloat(p, INT) << std::endl;
-            std::cout << "double: " << convertToDouble(p, INT) << std::endl;
-            break;
-        } 
-        case 1:
-        {
-            std::cout << "char: " << convertToChar(p, FLOAT) << std::endl;
-            std::cout << "int: " << convertToInt(p, FLOAT) << std::endl;
-            std::cout << "float: " << convertToFloat(p, FLOAT) << std::endl;
-            std::cout << "double: " << convertToDouble(p, FLOAT) << std::endl;
-            break;
-        } 
-        case 2:
-        {
-            std::cout << "char: " << convertToChar(p, CHAR) << std::endl;
-            std::cout << "int: " << convertToInt(p, CHAR) << std::endl;
-            std::cout << "float: " << convertToFloat(p, CHAR) << std::endl;
-            std::cout << "double: " << convertToDouble(p, CHAR) << std::endl;
-            break;
-        } 
-        case 3:
-        {
-            std::cout << "char: " << convertToChar(p, DOUBLE) << std::endl;
-            std::cout << "int: " << convertToInt(p, DOUBLE) << std::endl;
-            std::cout << "float: " << convertToFloat(p, DOUBLE) << std::endl;
-            std::cout << "double: " << convertToDouble(p, DOUBLE) << std::endl;
-            break;
-        }   
-        default:
-        {
-            std::cout << "char: " << "Non displayable" << std::endl;
-            std::cout << "int: " << "impossible" << std::endl;
-            std::cout << "float: " << "impossible" << std::endl;
-            std::cout << "double: " << "impossible" << std::endl;
-            break;
-        }
+        std::cout << "char: " << convertToChar(p, type) << std::endl;
+        std::cout << "int: " << convertToInt(p, type) << std::endl;
+        std::cout << "float: " << convertToFloat(p, type) << std::endl;
+        std::cout << "double: " << convertToDouble(p, type) << std::endl;
+    }
+    else
+    {
+        std::cout << "char: " << "Non displayable" << std::endl;
+        std::cout << "int: " << "impossible" << std::endl;
+        std::cout << "float: " << "impossible" << std::endl;
+        std::cout << "double: " << "impossible" << std::endl;
     }
 }

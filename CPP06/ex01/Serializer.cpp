@@ -43,12 +43,14 @@ Serializer    &Serializer::operator=(Serializer const &serializer)
 
 uintptr_t   Serializer::serialize(Data *ptr)
 {
-    return ((uintptr_t)ptr);
+    uintptr_t tmp = reinterpret_cast<uintptr_t>(ptr);
+
+    return (tmp);
 }
 
 Data        *Serializer::deserialize(uintptr_t raw)
 {
-    void    *ptr = (void *)raw;
+    Data *tmp = reinterpret_cast<Data *>(raw);
 
-    return ((Data *)ptr);
+    return (tmp);
 }
