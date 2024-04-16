@@ -1,4 +1,4 @@
- #ifndef MUTANTSTACK_HPP
+#ifndef MUTANTSTACK_HPP
 #define MUTANTSTACK_HPP
 
 //--------------------------------------------------------------------------//
@@ -6,7 +6,7 @@
 //--------------------------------------------------------------------------//
 
 # include <iostream>
-
+# include <stack>
 
 //--------------------------------------------------------------------------//
 //                                 - CLASS -                                //
@@ -58,24 +58,23 @@ class MutantStack : public std::stack<T>
 //--PUBLIC------------------------------------------------------------------//
     public:
                            // - VARIABLES - //
-        typedef T   *iter;
 
 
                            // - FUNCTIONS - //
 
     // Constructor & Destructors
-        MutantStack();
-        MutantStack(MutantStack &mutantstack)
+        MutantStack<T>() {}
+        MutantStack<T>(MutantStack &mut) : std::stack<T>(mut)
         {
-            *this = mutantstack;
+            *this = mut;
         }
-        ~MutantStack();
+        ~MutantStack<T>() {}
 
 
     // Operators
-        MutantStack &operator=(const MutantStack &mutantstack)
+        MutantStack<T> &operator=(const MutantStack<T> &mut)
         {
-            iter = mutantstack.iter;
+            *this = mut;
             return *this;
         }
 
@@ -83,14 +82,16 @@ class MutantStack : public std::stack<T>
 
 
     // Member Functions
-        iter    begin()
+typedef typename std::stack<T>::container_type::iterator it;
+
+        it    begin()
         {
-            return c[0];
+            return this->c.begin();
         }
 
-        iter    end()
+        it    end()
         {
-            return c.top() + 1;
+            return this->c.end();
         }
 
 };

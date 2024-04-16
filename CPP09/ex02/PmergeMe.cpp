@@ -10,12 +10,13 @@ PmergeMe::~PmergeMe()
 
 }
 
-void PmergeMe::swap(int a, int b)
+template <typename T>
+void PmergeMe::ft_swap(T *a, T *b)
 {
     int   tmp;
-    tmp = a;
-    a = b;
-    b = tmp;
+    tmp = *a;
+    *a = *b;
+    *b = tmp;
 }
 
 void PmergeMe::exec(int argc, char **argv)
@@ -70,7 +71,7 @@ clock_t PmergeMe::sortDeque()
             }
             while (it != itToMerge)
             {
-                swap(*(it - 1), *it);
+                ft_swap(it - 1, it);
                 it++;
             }
             it = dequeList.begin();
@@ -102,7 +103,7 @@ clock_t PmergeMe::sortVector()
             }
             while (it != itToMerge)
             {
-                swap(*(it - 1), *it);
+                ft_swap(it - 1, it);
                 it++;
             }
             it = vectorList.begin();

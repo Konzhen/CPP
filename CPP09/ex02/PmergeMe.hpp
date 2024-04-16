@@ -7,6 +7,7 @@
 #include <ctime>
 #include <cstdlib>
 #include <iomanip>
+#include <iterator>
 
 class PmergeMe
 {
@@ -14,7 +15,8 @@ class PmergeMe
         PmergeMe();
         ~PmergeMe();
 
-        void swap(int a, int b);
+    template <typename T>
+        void ft_swap(iterator a, T *b);
         void exec(int argc, char **argv);
         clock_t sortDeque();
         clock_t sortVector();
