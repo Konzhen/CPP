@@ -10,15 +10,6 @@ PmergeMe::~PmergeMe()
 
 }
 
-template <typename T>
-void PmergeMe::ft_swap(T *a, T *b)
-{
-    int   tmp;
-    tmp = *a;
-    *a = *b;
-    *b = tmp;
-}
-
 void PmergeMe::exec(int argc, char **argv)
 {
     for (int i = 1; i < argc; i++)
@@ -50,36 +41,59 @@ void PmergeMe::exec(int argc, char **argv)
     std::cout << "Time to process a range of " << argc - 1 << "elements with std::vector : " << vectorTime << " us" << std::endl;
 }
 
+void PmergeMe::recursiveDeque(std::deque<std::pair<int, int>> &pairList)
+{
+    for (size_t i = 0; i < pairList.size(); i++)
+    {
+        if (i + 1 == pairList.size())
+            return ;
+        if (pairList[i].second < pairList[i + 1].second)
+        {
+            int tmp;
+            tmp = pairList[i].second;
+            pairList[i].second = pairList[i + 1].second;
+            pairList[i + 1].second = tmp;
+            recursiveDeque(pairList);
+            break ;
+        }
+    }
+}
+
+void PmergeMe::recursiveVector(std::vector<std::pair<int, int>> &pairList)
+{
+    for (size_t i = 0; i < pairList.size(); i++)
+    {
+        if (i + 1 == pairList.size())
+            return ;
+        if (pairList[i].second < pairList[i + 1].second)
+        {
+            int tmp;
+            tmp = pairList[i].second;
+            pairList[i].second = pairList[i + 1].second;
+            pairList[i + 1].second = tmp;
+            recursiveVector(pairList);
+            break ;
+        }
+    }
+}
+
+
 clock_t PmergeMe::sortDeque()
 {
-    std::deque<int>::iterator it;
-    std::deque<int>::iterator itToMerge;
-
-    int tmp = 0;
-    int tmp2 = 0;
-    for (it = dequeList.begin(); it != dequeList.end(); it++)
+    std::deque<std::pair<int, int>> pairList;
+    for (std::deque<int>::iterator it = dequeList.begin(); it != dequeList.end(); it++)
     {
-        if (tmp > *it)
-        {
-            itToMerge = it;
-            tmp = *it;
-
-            while (itToMerge != dequeList.end() && *itToMerge > tmp2)
-            {
-                tmp2 = *itToMerge;
-                itToMerge++;
-            }
-            while (it != itToMerge)
-            {
-                ft_swap(it - 1, it);
-                it++;
-            }
-            it = dequeList.begin();
-        }
-        tmp = *it;
+        if (it + 1 == dequeList.end());
+            break ;
+        pairList.push_back(std::pair<int, int>(*it, *it + 1));
     }
-    clock_t dequeEnd = clock();
-    return dequeEnd;
+    for (size_t i = 0; i < pairList.size(); i++)
+    {
+        if (pairList[i].first > pairList[i].second)
+        pairList[i].swap(pairList[i]);
+    }
+    
+
 }
 
 clock_t PmergeMe::sortVector()
@@ -87,29 +101,31 @@ clock_t PmergeMe::sortVector()
     std::vector<int>::iterator it;
     std::vector<int>::iterator itToMerge;
 
-    int tmp = 0;
-    int tmp2 = 0;
-    for (it = vectorList.begin(); it != vectorList.end(); it++)
-    {
-        if (tmp > *it)
-        {
-            itToMerge = it;
-            tmp = *it;
 
-            while (itToMerge != vectorList.end() && *itToMerge > tmp2)
-            {
-                tmp2 = *itToMerge;
-                itToMerge++;
-            }
-            while (it != itToMerge)
-            {
-                ft_swap(it - 1, it);
-                it++;
-            }
-            it = vectorList.begin();
-        }
-        tmp = *it;
-    }
-    clock_t vectorEnd = clock();
-    return vectorEnd;
+
+    // int tmp = 0;
+    // int tmp2 = 0;
+    // for (it = vectorList.begin(); it != vectorList.end(); it++)
+    // {
+    //     if (tmp > *it)
+    //     {
+    //         itToMerge = it;
+    //         tmp = *it;
+
+    //         while (itToMerge != vectorList.end() && *itToMerge > tmp2)
+    //         {
+    //             tmp2 = *itToMerge;
+    //             itToMerge++;
+    //         }
+    //         while (it != itToMerge)
+    //         {
+    //             ft_swap(it - 1, it);
+    //             it++;
+    //         }
+    //         it = vectorList.begin();
+    //     }
+    //     tmp = *it;
+    // }
+    // clock_t vectorEnd = clock();
+    // return vectorEnd;
 }

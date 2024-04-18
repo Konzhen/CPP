@@ -15,9 +15,10 @@ class PmergeMe
         PmergeMe();
         ~PmergeMe();
 
-    template <typename T>
-        void ft_swap(iterator a, T *b);
         void exec(int argc, char **argv);
+
+        void recursiveDeque(std::deque<std::pair<int, int>> &pairList);
+        void recursiveVector(std::vector<std::pair<int, int>> &pairList);
         clock_t sortDeque();
         clock_t sortVector();
 
