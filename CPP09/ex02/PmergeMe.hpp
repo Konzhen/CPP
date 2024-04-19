@@ -19,9 +19,11 @@ class PmergeMe
 
         void recursiveDeque(std::deque<std::pair<int, int>> &pairList);
         void recursiveVector(std::vector<std::pair<int, int>> &pairList);
-        clock_t sortDeque();
-        clock_t sortVector();
-
+        int jacobsthal(int n);
+        void binarySearchDeque(int half, int n);
+        void binarySearchVector(int half, int n);
+        clock_t sortDeque(int argc, char **argv);
+        clock_t sortVector(int argc, char **argv);
         std::deque<int> dequeList;
         std::vector<int> vectorList;
 };

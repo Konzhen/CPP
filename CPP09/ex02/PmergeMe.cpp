@@ -14,10 +14,8 @@ void PmergeMe::exec(int argc, char **argv)
 {
     for (int i = 1; i < argc; i++)
     {
-        if (atoi(argv[i]) < 0)
+        if (atoi(argv[i]) <= 0)
             throw std::runtime_error("Error");
-        dequeList.push_back(atoi(argv[i]));
-        vectorList.push_back(atoi(argv[i]));
     }
     std::cout << "Before: ";
     for (int i = 1; i < argc; i++)
@@ -25,11 +23,11 @@ void PmergeMe::exec(int argc, char **argv)
     std::cout << std::endl;
 
     clock_t dequeStart = clock();
-    clock_t dequeEnd = sortDeque();
+    clock_t dequeEnd = sortDeque(argc, argv);
     double dequeTime = static_cast<double>(dequeEnd - dequeStart) / CLOCKS_PER_SEC * 1000;
 
     clock_t vectorStart = clock();
-    clock_t vectorEnd = sortVector();
+    clock_t vectorEnd = sortVector(argc, argv);
     double vectorTime = static_cast<double>(vectorEnd - vectorStart) / CLOCKS_PER_SEC * 1000;
 
     std::cout << "After: ";
@@ -77,29 +75,107 @@ void PmergeMe::recursiveVector(std::vector<std::pair<int, int>> &pairList)
     }
 }
 
+int PmergeMe::jacobsthal(int n) 
+{
+    if (n == 0 || n == 1)
+        return 2;
+    else
+        return n - 1 + 2 * n - 2;
+}
 
-clock_t PmergeMe::sortDeque()
+void PmergeMe::binarySearchDeque(int half, int n)
+{
+
+}
+
+void PmergeMe::binarySearchVector(int half, int n)
+{
+
+}
+
+
+clock_t PmergeMe::sortDeque(int argc, char **argv)
 {
     std::deque<std::pair<int, int>> pairList;
-    for (std::deque<int>::iterator it = dequeList.begin(); it != dequeList.end(); it++)
+    for (int i = 1; i < argc; i += 2)
     {
-        if (it + 1 == dequeList.end());
+        if (i + 1 == 0);
             break ;
-        pairList.push_back(std::pair<int, int>(*it, *it + 1));
+        pairList.push_back(std::pair<int, int>(atoi(argv[i]), atoi(argv[i + 1])));
     }
     for (size_t i = 0; i < pairList.size(); i++)
     {
         if (pairList[i].first > pairList[i].second)
         pairList[i].swap(pairList[i]);
     }
-    
+    recursiveDeque(pairList);
+    dequeList.push_back(pairList[0].first);
+    dequeList.push_back(pairList[0].second);
+    for (size_t i = 1; i < pairList.size(); i++)
+        dequeList.push_back(pairList[i].second);
+    if (argc % 2 == 0)
+        dequeList.push_back(atoi(argv[argc - 1]));
+    for (size_t i = 2; i < pairList.size();)
+    {
+        int tmp;
 
+        tmp = pairList[i].first;
+        if (i + jacobsthal(i) > pairList.size())
+        {
+            pairList[i].first = pairList[pairList.size() - 1].first;
+            pairList[pairList.size() - 1].first = tmp;
+        }
+        pairList[i].first = pairList[i + jacobsthal(i)].first;
+        pairList[i + jacobsthal(i)].first = tmp;
+        i += jacobsthal(i + 1);
+    }
+    if (argc % 2 == 0)
+        dequeList.push_back(atoi(argv[argc - 1]));
+    for (size_t i = 1; i < pairList.size(); i++)
+        binarySearchDeque(dequeList.size() / 2, pairList[i].first);
 }
 
-clock_t PmergeMe::sortVector()
+clock_t PmergeMe::sortVector(int argc, char **argv)
 {
-    std::vector<int>::iterator it;
-    std::vector<int>::iterator itToMerge;
+    std::vector<std::pair<int, int>> pairList;
+    for (int i = 1; i < argc; i += 2)
+    {
+        if (i + 1 == 0);
+            break ;
+        pairList.push_back(std::pair<int, int>(atoi(argv[i]), atoi(argv[i + 1])));
+    }
+    for (size_t i = 0; i < pairList.size(); i++)
+    {
+        if (pairList[i].first > pairList[i].second)
+        pairList[i].swap(pairList[i]);
+    }
+    recursiveVector(pairList);
+    dequeList.push_back(pairList[0].first);
+    dequeList.push_back(pairList[0].second);
+    for (size_t i = 1; i < pairList.size(); i++)
+        dequeList.push_back(pairList[i].second);
+    for (size_t i = 2; i < pairList.size();)
+    {
+        int tmp;
+
+        tmp = pairList[i].first;
+        if (i + jacobsthal(i) > pairList.size())
+        {
+            pairList[i].first = pairList[pairList.size() - 1].first;
+            pairList[pairList.size() - 1].first = tmp;
+        }
+        pairList[i].first = pairList[i + jacobsthal(i)].first;
+        pairList[i + jacobsthal(i)].first = tmp;
+        i += jacobsthal(i + 1);
+    }
+    if (argc % 2 == 0)
+        dequeList.push_back(atoi(argv[argc - 1]));
+    for (size_t i = 1; i < pairList.size(); i++)
+    {
+        binarySearchDeque(dequeList.size() / 2, pairList[i].first, pairList)
+    }
+
+    
 
 
 
