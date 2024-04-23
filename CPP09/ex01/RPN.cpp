@@ -35,8 +35,6 @@ void			RPN::exec(char *param)
 			throw std::runtime_error("Error, Wrong parameters");
 		else if (*param >= '0' && *param <= '9')
 			lst.push(*param - '0');
-		if (lst.size() != 2)
-			throw std::runtime_error("Error, Wrong parameters");
 		else if (*param == '+')
 		{
 			tmp = lst.top();
@@ -63,6 +61,8 @@ void			RPN::exec(char *param)
 		}
 		else if (*param == '/')
 		{
+			if (lst.top() == 0)
+				throw std::runtime_error("Error, Divided by 0");
 			tmp = lst.top();
 			lst.pop();
 			tmp2 = lst.top();

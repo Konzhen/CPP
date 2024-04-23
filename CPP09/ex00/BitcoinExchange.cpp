@@ -77,10 +77,14 @@ std::map<std::string, long double> BitcoinExchange::createBtcMap()
             long double rate = strtod(tmp.substr(11).c_str(), &end);
             btc.insert(std::make_pair(date, rate));
         }
+        file.close();
         return (btc);
     }
     else
+    {
+        file.close();
         throw std::runtime_error("Error: Can' t open file data.csv, maybe it doesn' t exist ?\n");
+    }
     file.close();
     return (btc);
 }
@@ -106,6 +110,19 @@ void    BitcoinExchange::evaluateInputWithBtc(std::string inputLine, std::map<st
     if (inputLine.substr(10, 3) != " | ")
         throw std::runtime_error("Error: bad delimiter " + inputLine + ".");
 
+    int onlyOne = 0;
+    for (size_t i = 13; i < inputLine.length(); i++)
+    {
+        if (inputLine[i] == '.')
+            onlyOne++;
+        if (onlyOne > 1)
+            throw std::runtime_error("Error: bad input " + inputLine + ".");
+        if (!isdigit(inputLine[13]) || !isdigit(inputLine[inputLine.length() - 1]))
+            throw std::runtime_error("Error: bad input " + inputLine + ".");
+        if ((inputLine[i] < '0' || inputLine[i] > '9') && inputLine[i] != '.')
+            throw std::runtime_error("Error: bad input " + inputLine + ".");
+    }
+    
     float value = atof(inputLine.substr(13).c_str());
     if (value < 0)
         throw std::runtime_error("Error: not a positive number");
@@ -130,7 +147,10 @@ void    BitcoinExchange::exec(std::string input)
 
         getline(file, inputLine);
         if (inputLine != "date | value")
+        {
+            file.close();
             throw std::runtime_error("Error: Wrong header' s input, it should start exactly with \"date | value\".\n");
+        }
         while(std::getline(file, inputLine))
         {
             try
@@ -144,5 +164,9 @@ void    BitcoinExchange::exec(std::string input)
         }
     }
     else
+    {
+        file.close();
         throw std::runtime_error("Error: Can' t open file " + input + ", maybe it doesn' t exist ?\n");
+    }
+    file.close();
 }
