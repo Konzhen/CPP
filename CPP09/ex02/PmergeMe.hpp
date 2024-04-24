@@ -27,7 +27,6 @@ class PmergeMe
         clock_t sortVector(int argc, char **argv);
         std::deque<int> dequeList;
         std::vector<int> vectorList;
-        std::pair<int, int> pairCopy;
         int quarter;
 };
 

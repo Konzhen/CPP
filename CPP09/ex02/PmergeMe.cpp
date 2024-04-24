@@ -94,13 +94,13 @@ void PmergeMe::binarySearchDeque(size_t half, int n)
     }
     while (true)
     {
-        if (half == 0)
+        if (half == 0 && dequeList[half] > n)
         {
             std::deque<int>::iterator it = dequeList.begin();
             it += half;
             dequeList.insert(it, n);
             return ;            
-        }
+        }   
         else if (dequeList[half - 1] <= n && dequeList[half] >= n)
         {
             std::deque<int>::iterator it = dequeList.begin();
@@ -189,12 +189,17 @@ clock_t PmergeMe::sortDeque(int argc, char **argv)
             pairList[i].second = tmp;
         }
     }
-    recursiveDeque(pairList);  
+    recursiveDeque(pairList); 
     dequeList.push_back(pairList[0].first);
     dequeList.push_back(pairList[0].second);
+    for (std::deque<int>::iterator it = dequeList.begin(); it != dequeList.end(); it++)
+        std::cout << *it << " ";
+    std::cout << std::endl;
     for (size_t i = 1; i < pairList.size(); i++)
         dequeList.push_back(pairList[i].second);
     quarter = dequeList.size() / 4;
+    for (std::deque<int>::iterator it = dequeList.begin(); it != dequeList.end(); it++)
+        std::cout << *it << " ";
     for (size_t i = 1; i < pairList.size(); i++)
         binarySearchDeque(dequeList.size() / 2, pairList[i].first);
     if (argc % 2 == 0)
