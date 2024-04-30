@@ -19,7 +19,6 @@ void			RPN::exec(char *param)
 {
 	std::stack<int> lst;
 	int				tmp;
-	int				tmp2;
 
 	while(*param == ' ')
 		param++;
@@ -31,6 +30,8 @@ void			RPN::exec(char *param)
 	{
 		while(*param == ' ')
 			param++;
+		if (*param == '\0')
+			break ;
 		if (!isdigit(*param) && (*param != '+' && *param != '-' && *param != '/' && *param != '*'))
 			throw std::runtime_error("Error, Wrong parameters");
 		else if (*param >= '0' && *param <= '9')
@@ -39,25 +40,19 @@ void			RPN::exec(char *param)
 		{
 			tmp = lst.top();
 			lst.pop();
-			tmp2 = lst.top();
-			lst.pop();
-			lst.push(tmp2 + tmp);
+			lst.top() += tmp;
 		}
 		else if (*param == '-')
 		{
 			tmp = lst.top();
 			lst.pop();
-			tmp2 = lst.top();
-			lst.pop();
-			lst.push(tmp2 - tmp);
+			lst.top() -= tmp;
 		}
 		else if (*param == '*')
 		{
 			tmp = lst.top();
 			lst.pop();
-			tmp2 = lst.top();
-			lst.pop();
-			lst.push(tmp2 * tmp);
+			lst.top() *= tmp;
 		}
 		else if (*param == '/')
 		{
@@ -65,17 +60,25 @@ void			RPN::exec(char *param)
 				throw std::runtime_error("Error, Divided by 0");
 			tmp = lst.top();
 			lst.pop();
-			tmp2 = lst.top();
-			lst.pop();
-			lst.push(tmp2 / tmp);
+			lst.top() /= tmp;
 		}
-		if (lst.size() > 2)
-			throw std::runtime_error("Error, Wrong parameters");
 		param++;
 	}
-	tmp = lst.top();
-	lst.pop();
-	if (!lst.empty())
-		throw std::runtime_error("Error, Wrong parameters");
-	std::cout << tmp << std::endl;
+	int tab[lst.size()];
+	size_t s = lst.size();
+	size_t i;
+	for (i = 0; i < s; i++)
+	{
+		tab[i] = lst.top();
+		lst.pop();
+	}
+	i--;
+	while (true)
+	{
+		std::cout << tab[i] << " ";
+		if (i == 0)
+			break ;
+		i--;
+	}
+	std::cout << std::endl;
 }

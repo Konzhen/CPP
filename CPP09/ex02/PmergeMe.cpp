@@ -21,7 +21,6 @@ void PmergeMe::exec(int argc, char **argv)
     std::cout << "Before: ";
     for (int i = 1; i < argc; i++)
         std::cout << argv[i] << " ";
-    std::cout << std::endl;
 
     clock_t dequeStart = clock();
     clock_t dequeEnd = sortDeque(argc, argv);
@@ -37,6 +36,7 @@ void PmergeMe::exec(int argc, char **argv)
     // std::cout << std::endl;
     // for (std::vector<int>::iterator it2 = vectorList.begin(); it2 != vectorList.end(); it2++)
     //     std::cout << *it2 << " ";
+    std::cout << std::endl;
     std::cout << std::endl;
     std::cout << "Time to process a range of " << argc - 1 << " elements with std::deque : " << dequeTime << " us" << std::endl;
     std::cout << "Time to process a range of " << argc - 1 << " elements with std::vector : " << vectorTime << " us" << std::endl;
@@ -94,23 +94,28 @@ void PmergeMe::binarySearchDeque(size_t half, int n)
     }
     while (true)
     {
+        std::deque<int>::iterator it = dequeList.begin();
         if (half == 0 && dequeList[half] > n)
         {
-            std::deque<int>::iterator it = dequeList.begin();
+            
             it += half;
             dequeList.insert(it, n);
             return ;            
-        }   
+        }
+        else if (half == 0 && dequeList[half] < n)
+        {
+            it++;
+            dequeList.insert(it, n);
+            return ;
+        }
         else if (dequeList[half - 1] <= n && dequeList[half] >= n)
         {
-            std::deque<int>::iterator it = dequeList.begin();
             it += half;
             dequeList.insert(it, n);
             return ;
         }
         else if (half == dequeList.size() - 1)
         {
-            std::deque<int>::iterator it = dequeList.begin();
             it += half + 1;
             dequeList.insert(it, n);
             return ;            
@@ -142,23 +147,27 @@ void PmergeMe::binarySearchVector(size_t half, int n)
     }
     while (true)
     {
-        if (half == 0)
+        std::vector<int>::iterator it = vectorList.begin();
+        if (half == 0 && vectorList[half] > n)
         {
-            std::vector<int>::iterator it = vectorList.begin();
             it += half;
             vectorList.insert(it, n);
             return ;            
         }
-        else if ((vectorList[half - 1] <= n && vectorList[half] >= n) || half == vectorList.size() - 1)
+        else if (half == 0 && vectorList[half] < n)
         {
-            std::vector<int>::iterator it = vectorList.begin();
+            it++;
+            vectorList.insert(it, n);
+            return ;
+        }
+        else if (half == 0 || (vectorList[half - 1] <= n && vectorList[half] >= n))
+        {
             it += half;
             vectorList.insert(it, n);
             return ;
         }
         else if (half == vectorList.size() - 1)
         {
-            std::vector<int>::iterator it = vectorList.begin();
             it += half + 1;
             vectorList.insert(it, n);
             return ;            
@@ -192,14 +201,10 @@ clock_t PmergeMe::sortDeque(int argc, char **argv)
     recursiveDeque(pairList); 
     dequeList.push_back(pairList[0].first);
     dequeList.push_back(pairList[0].second);
-    for (std::deque<int>::iterator it = dequeList.begin(); it != dequeList.end(); it++)
-        std::cout << *it << " ";
     std::cout << std::endl;
     for (size_t i = 1; i < pairList.size(); i++)
         dequeList.push_back(pairList[i].second);
     quarter = dequeList.size() / 4;
-    for (std::deque<int>::iterator it = dequeList.begin(); it != dequeList.end(); it++)
-        std::cout << *it << " ";
     for (size_t i = 1; i < pairList.size(); i++)
         binarySearchDeque(dequeList.size() / 2, pairList[i].first);
     if (argc % 2 == 0)
